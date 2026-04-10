@@ -3,166 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1055/1055672.png" type="image/png">
     <title>Gerador de Charadas</title>
     <style>
         * {
-            font-family: "Raleway", sans-serif;
-            font-weight: 400;
-            font-style: normal;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
         body {
+            font-family: "Raleway", sans-serif;
             background: linear-gradient(135deg, #5f72e7 0%, #c497f0 50%, #ff94d8 100%);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-        
-        /* Efeito de vidro no card */
+
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        /* Título */
+        h1 {
+            font-family: "Fredoka", sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 4rem;
+            }
+        }
+
+        /* Wrapper do conteúdo principal (pontos + card) */
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        /* Painel de pontos */
+        .pontos-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .pontos-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 30px 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            min-width: 160px;
+        }
+
+        .pontos-card p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .pontos-valor {
+            color: white;
+            font-size: 3.5rem;
+            font-weight: bold;
+            font-family: "Fredoka", sans-serif;
+        }
+
+        .btn-pontos {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.2s, filter 0.2s;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-pontos:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-acertei {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-acertei:hover {
+            background: #45a049;
+        }
+
+        .btn-errei {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-errei:hover {
+            background: #da190b;
+        }
+
+        /* Container do card 3D */
+        .card-3d-container {
+            width: 500px;
+            height: 350px;
+            perspective: 1000px;
+        }
+
+        @media (max-width: 768px) {
+            .card-3d-container {
+                width: 90vw;
+                height: 300px;
+            }
+        }
+
+        .card-wrapper {
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-virado .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
         .card-front {
             background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        
+
         .card-back {
             background: linear-gradient(135deg, #6366f1 0%, #d4a8df 100%);
+            transform: rotateY(180deg);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
-        /* Transição suave */
-        #card-inner {
-            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 0.3s ease;
-            transform-style: preserve-3d;
-        }
-        
-        /* Efeito de elevação ao passar o mouse */
-        .group:hover #card-inner {
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Esconde o verso quando não está virado */
-        #card-inner > div {
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-        }
-        
-        /* Verso começa virado */
-        #card-inner > div:last-child {
-            transform: rotateY(180deg);
+
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Animação de entrada */
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
+        .badge-pergunta {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+
+        .badge-resposta {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .pergunta-texto, .resposta-texto {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        @media (min-width: 768px) {
+            .pergunta-texto, .resposta-texto {
+                font-size: 1.8rem;
             }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
         }
 
-        #card-inner {
-            animation: fadeInScale 0.4s ease-out;
+        .pergunta-texto {
+            color: #1f2937;
         }
 
-        /* Botão com mais estilo */
-        #btn-nova {
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .resposta-texto {
+            color: white;
         }
 
-        #btn-nova:hover {
+        .dica {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .dica-front {
+            color: #8b5cf6;
+        }
+
+        .dica-back {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Botões inferiores */
+        .botoes-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: "Raleway", sans-serif;
+        }
+
+        .btn-nova {
+            background: white;
+            color: #6366f1;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-nova:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            background: #f8f9ff;
         }
 
-        #btn-nova:active {
+        .btn-reset {
+            background: #ff6b6b;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-reset:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
             transform: translateY(0);
         }
 
-        /* Estilos do Footer */
+        /* Footer */
         footer {
-            margin-top: auto;
-            padding: 20px;
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 0.85rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
         }
 
         footer a {
-            color: rgba(255, 255, 255, 1);
+            color: white;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+            transition: border-color 0.2s;
         }
 
         footer a:hover {
-            border-bottom-color: rgba(255, 255, 255, 1);
-
-        /* Estilo especial para o título */
-        h1 {
-            font-family: "Fredoka", sans-serif;
-            font-weight: 600;
-        }
+            border-bottom-color: white;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between min-h-screen p-4 bg-gradient-to-br from-indigo-500 via-purple-400 to-pink-300">
+<body>
+    <div class="container">
+        <h1>🎪 Gerador de Charadas 🎪</h1>
 
-    <div class="flex-1"></div>
-
-    <h1 class="text-6xl font-bold text-white text-center mb-8 drop-shadow-lg tracking-wider">
-         🎪Gerador de Charadas🎪
-    </h1>
-
-    <div class="group w-full max-w-2xl [perspective:1000px] h-96">
-        <div id="card-inner" class="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d] cursor-pointer shadow-2xl rounded-3xl">
-           
-            <!-- Frente (Pergunta) -->
-            <div class="absolute inset-0 card-front rounded-3xl flex flex-col items-center justify-center p-10 text-center">
-                <div class="w-full">
-                    <div class="inline-block bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-8 py-3 rounded-full text-sm font-semibold mb-8 shadow-lg">
-                         PERGUNTA
-                    </div>
-                    <p id="pergunta" class="text-3xl text-gray-800 leading-relaxed font-medium">
-                        Carregando charada...
-                    </p>
+        <div class="main-content">
+            <!-- Painel de Pontos -->
+            <div class="pontos-panel">
+                <div class="pontos-card">
+                    <p>🏆 PONTOS 🏆</p>
+                    <div class="pontos-valor" id="pontos">0</div>
                 </div>
-                <div class="mt-10 text-indigo-400 text-sm font-medium">
-                    ↻ Clique para virar o card
-                </div>
-            </div>
-            <!-- Verso (Resposta) -->
-            <div class="absolute inset-0 card-back rounded-3xl flex flex-col items-center justify-center p-10 text-center text-white shadow-xl">
-                <div class="w-full">
-                    <div class="inline-block bg-white bg-opacity-25 backdrop-blur-md px-8 py-3 rounded-full text-sm font-semibold mb-8 shadow-lg">
-                        💡 RESPOSTA
-                    </div>
-                    <p id="resposta" class="text-3xl font-semibold leading-relaxed">
-                        Carregando...
-                    </p>
-                </div>
-                <div class="mt-10 text-white text-opacity-90 text-sm font-medium">
-                    ↻ Clique para voltar
-                </div>
+                <button class="btn-pontos btn-acertei" id="btn-acertei" title="Acertei! (+10 pontos)">✓</button>
+                <button class="btn-pontos btn-errei" id="btn-errei" title="Errei! (-5 pontos)">✗</button>
             </div>
 
-
+            <!-- Card 3D -->
+            <div class="card-3d-container">
+                <div class="card-wrapper" id="card-wrapper">
+                    <div class="card-inner" id="card-inner">
+                        <!-- Frente -->
+                        <div class="card-front">
+                            <div class="badge badge-pergunta">🤔 PERGUNTA</div>
+                            <p class="pergunta-texto" id="pergunta">Carregando...</p>
+                            <div class="dica dica-front">↻ Clique para virar</div>
+                        </div>
+                        <!-- Verso -->
+                        <div class="card-back">
+                            <div class="badge badge-resposta">💡 RESPOSTA</div>
+                            <p class="resposta-texto" id="resposta">Carregando...</p>
+                            <div class="dica dica-back">↻ Clique para voltar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <button id="btn-nova" class="mt-14 bg-white text-indigo-600 hover:bg-indigo-50 font-bold py-4 px-10 rounded-full shadow-xl text-lg tracking-wide border-2 border-transparent hover:border-indigo-200">
-         Nova Charada 
-    </button>
-<script src="script.js"></script>
+        <!-- Botões -->
+        <div class="botoes-container">
+            <button class="btn btn-nova" id="btn-nova">🎲 Nova Charada</button>
+            <button class="btn btn-reset" id="btn-reset">🔄 Resetar Pontos</button>
+        </div>
+
+        <footer>
+            Feito por <a href="https://www.linkedin.com/in/rebeca-diniz-970437350/" target="_blank">Rebeca</a> ✨
+        </footer>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
-    <footer>
-        Feito por <a href="https://www.linkedin.com/in/rebeca-diniz-970437350/">Rebeca</a> ✨
-    </footer>
