@@ -91,7 +91,7 @@ async function buscaCharada() {
     
     try {
         // SUA API
-        const baseUrl = 'https://api-charadas-backend-kappa.vercel.app/'
+        const baseUrl = 'https://api-charadas-backend-five.vercel.app/'
         const endPoint = 'charadas/aleatorias'
         
         console.log('Buscando em:', baseUrl + endPoint)
