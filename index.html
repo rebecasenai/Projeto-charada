@@ -4,33 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1055/1055672.png" type="image/png">
     <title>Gerador de Charadas</title>
     <style>
         * {
-            font-family: "Chewy", system-ui;
+            font-family: "Raleway", sans-serif;
             font-weight: 400;
             font-style: normal;
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #d5b9f1 100%);
+            background: linear-gradient(135deg, #5f72e7 0%, #c8a8e8 50%, #f5a6d8 100%);
+            min-height: 100vh;
         }
         
         /* Efeito de vidro no card */
         .card-front {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
         .card-back {
-            background: linear-gradient(135deg, #667eea 0%, #dbbff6 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #d4a8df 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         /* Transição suave */
         #card-inner {
-            transition: transform 0.6s ease-in-out;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 0.3s ease;
             transform-style: preserve-3d;
+        }
+        
+        /* Efeito de elevação ao passar o mouse */
+        .group:hover #card-inner {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
         }
         
         /* Esconde o verso quando não está virado */
@@ -43,53 +52,108 @@
         #card-inner > div:last-child {
             transform: rotateY(180deg);
         }
+
+        /* Animação de entrada */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #card-inner {
+            animation: fadeInScale 0.4s ease-out;
+        }
+
+        /* Botão com mais estilo */
+        #btn-nova {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        #btn-nova:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.3);
+        }
+
+        #btn-nova:active {
+            transform: translateY(0);
+        }
+
+        /* Estilos do Footer */
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 1);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        footer a:hover {
+            border-bottom-color: rgba(255, 255, 255, 1);
+        }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center justify-between min-h-screen p-4 bg-gradient-to-br from-indigo-500 via-purple-400 to-pink-300">
 
-    <h1 class="text-5xl font-bold text-white text-center mb-12 drop-shadow-lg tracking-wide">
-        🎲 Gerador de Charadas 🎲
+    <h1 class="text-6xl font-bold text-white text-center mb-16 drop-shadow-lg tracking-wider">
+         Gerador de Charadas XD
     </h1>
 
-    <div class="group w-full max-w-md [perspective:1000px] h-96">
-        <div id="card-inner" class="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d] cursor-pointer shadow-2xl rounded-2xl">
+    <div class="group w-full max-w-2xl [perspective:1000px] h-96">
+        <div id="card-inner" class="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d] cursor-pointer shadow-2xl rounded-3xl">
            
             <!-- Frente (Pergunta) -->
-            <div class="absolute inset-0 card-front rounded-2xl flex flex-col items-center justify-center p-8 text-center shadow-xl">
+            <div class="absolute inset-0 card-front rounded-3xl flex flex-col items-center justify-center p-10 text-center">
                 <div class="w-full">
-                    <div class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-full text-sm mb-6 shadow-lg">
+                    <div class="inline-block bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-8 py-3 rounded-full text-sm font-semibold mb-8 shadow-lg">
                          PERGUNTA
                     </div>
-                    <p id="pergunta" class="text-2xl text-gray-800 leading-relaxed">
+                    <p id="pergunta" class="text-3xl text-gray-800 leading-relaxed font-medium">
                         Carregando charada...
                     </p>
                 </div>
-                <div class="mt-8 text-purple-400 text-sm">
-                     Clique no card para ver a resposta 
+                <div class="mt-10 text-indigo-400 text-sm font-medium">
+                    ↻ Clique para virar o card
                 </div>
             </div>
-
             <!-- Verso (Resposta) -->
-            <div class="absolute inset-0 card-back rounded-2xl flex flex-col items-center justify-center p-8 text-center text-white shadow-xl">
+            <div class="absolute inset-0 card-back rounded-3xl flex flex-col items-center justify-center p-10 text-center text-white shadow-xl">
                 <div class="w-full">
-                    <div class="inline-block bg-white bg-opacity-20 backdrop-blur-sm px-6 py-2 rounded-full text-sm mb-6 shadow-lg">
+                    <div class="inline-block bg-white bg-opacity-25 backdrop-blur-md px-8 py-3 rounded-full text-sm font-semibold mb-8 shadow-lg">
                         💡 RESPOSTA
                     </div>
-                    <p id="resposta" class="text-2xl font-bold leading-relaxed">
+                    <p id="resposta" class="text-3xl font-semibold leading-relaxed">
                         Carregando...
                     </p>
                 </div>
-                <div class="mt-8 text-white text-opacity-80 text-sm">
-                     Clique no card para voltar 
+                <div class="mt-10 text-white text-opacity-90 text-sm font-medium">
+                    ↻ Clique para voltar
                 </div>
             </div>
+
 
         </div>
     </div>
 
-    <button id="btn-nova" class="mt-10 bg-white text-purple-600 hover:bg-purple-50 font-bold py-3 px-8 rounded-full transition-all active:scale-95 shadow-xl hover:shadow-2xl text-lg tracking-wide">
+    <button id="btn-nova" class="mt-14 bg-white text-indigo-600 hover:bg-indigo-50 font-bold py-4 px-10 rounded-full shadow-xl text-lg tracking-wide border-2 border-transparent hover:border-indigo-200">
          Nova Charada 
     </button>
 <script src="script.js"></script>
 </body>
 </html>
+    <footer>
+        Feito por <a href="https://www.linkedin.com/in/rebeca-diniz-970437350/">Rebeca</a> ✨
+    </footer>
