@@ -146,19 +146,6 @@ btnAcertei.addEventListener('click', (e) => {
     atualizarPontos()
 })
 
-// Evento do botão Errei (-5 pontos)
-btnErrei.addEventListener('click', (e) => {
-    e.stopPropagation()
-    
-    // Verifica se o card está virado usando a função correta
-    if (!cardEstaVirado()) {
-        alert('Vire o card para ver a resposta primeiro!')
-        return
-    }
-    
-    pontos = Math.max(0, pontos - 5)
-    atualizarPontos()
-})
 
 // Inicializar ao carregar a página
 buscaCharada()
