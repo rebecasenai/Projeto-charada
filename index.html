@@ -15,20 +15,43 @@
             box-sizing: border-box;
         }
 
+        /* SOLUÇÃO SIMPLES - Imagem de fundo + Gradiente */
         body {
             font-family: "Raleway", sans-serif;
-            background: linear-gradient(135deg, rgba(95, 114, 231, 0.8) 0%, rgba(196, 151, 240, 0.8) 50%, rgba(255, 148, 216, 0.8) 100%), url('img1.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            background-image: url('/templates/img1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
         }
 
-        /* Container principal */
+        /* Gradiente animado por cima da imagem */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            opacity: 0.85;
+            z-index: 0;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
             max-width: 1200px;
             width: 100%;
@@ -37,17 +60,27 @@
             align-items: center;
             justify-content: center;
             gap: 40px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Título */
         h1 {
             font-family: "Fredoka", sans-serif;
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 700;
-            color: white;
+            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-align: center;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
-            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            letter-spacing: 3px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         @media (min-width: 768px) {
@@ -56,7 +89,6 @@
             }
         }
 
-        /* Wrapper do conteúdo principal (pontos + card) */
         .main-content {
             display: flex;
             align-items: center;
@@ -66,16 +98,9 @@
             width: 100%;
         }
 
-        /* Painel de pontos */
-        .pontos-panel {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
+        /* Painel de pontos simplificado */
         .pontos-card {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.626);
             backdrop-filter: blur(10px);
             padding: 30px 40px;
             border-radius: 20px;
@@ -85,64 +110,32 @@
         }
 
         .pontos-card p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
         }
 
         .pontos-valor {
-            color: white;
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: bold;
             font-family: "Fredoka", sans-serif;
-        }
-
-        .btn-pontos {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-pontos:hover {
-            transform: scale(1.1);
-        }
-
-        .btn-acertei {
-            background: #4caf50;
-            color: white;
-        }
-
-        .btn-acertei:hover {
-            background: #45a049;
-        }
-
-        .btn-errei {
-            background: #f44336;
-            color: white;
-        }
-
-        .btn-errei:hover {
-            background: #da190b;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         /* Container do card 3D */
         .card-3d-container {
-            width: 500px;
-            height: 350px;
+            width: 550px;
+            height: 450px;
             perspective: 1000px;
         }
 
         @media (max-width: 768px) {
             .card-3d-container {
-                width: 90vw;
-                height: 300px;
+                width: 95vw;
+                height: 480px;
             }
         }
 
@@ -161,10 +154,9 @@
             transition: transform 0.6s;
             transform-style: preserve-3d;
             border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .card-virado .card-inner {
+        .card-wrapper.card-virado .card-inner {
             transform: rotateY(180deg);
         }
 
@@ -195,38 +187,40 @@
 
         .badge {
             display: inline-block;
-            padding: 8px 20px;
+            padding: 12px 25px;
             border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             font-weight: 700;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            letter-spacing: 0.5px;
         }
 
         .badge i {
-            margin-right: 8px;
+            margin-right: 10px;
         }
 
         .badge-pergunta {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
 
         .badge-resposta {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
             color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
         .pergunta-texto, .resposta-texto {
             font-size: 1.5rem;
-            line-height: 1.4;
-            font-weight: 500;
+            line-height: 1.6;
+            font-weight: 600;
         }
 
         @media (min-width: 768px) {
             .pergunta-texto, .resposta-texto {
-                font-size: 1.8rem;
+                font-size: 1.9rem;
             }
         }
 
@@ -236,12 +230,13 @@
 
         .resposta-texto {
             color: white;
+            margin-bottom: 25px;
         }
 
         .dica {
-            margin-top: 25px;
             font-size: 0.8rem;
             opacity: 0.7;
+            margin-top: 20px;
         }
 
         .dica i {
@@ -256,6 +251,51 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        /* Botões de ação dentro do card */
+        .botoes-resposta {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-resposta {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: "Raleway", sans-serif;
+        }
+
+        .btn-acertou {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-acertou:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        }
+
+        .btn-errou {
+            background: linear-gradient(135deg, #f44336, #c62828);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-errou:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.5);
+        }
+
         /* Botões inferiores */
         .botoes-container {
             display: flex;
@@ -265,44 +305,40 @@
         }
 
         .btn {
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: 700;
+            padding: 14px 35px;
             border: none;
-            border-radius: 50px;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 800;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: "Raleway", sans-serif;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .btn-nova {
-            background: white;
-            color: #6366f1;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+            color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
 
         .btn-nova:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-            background: #f8f9ff;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
         }
 
         .btn-reset {
-            background: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
         }
 
         .btn-reset:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.5);
         }
 
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        /* Footer */
         footer {
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
@@ -322,36 +358,80 @@
         footer a:hover {
             border-bottom-color: white;
         }
+
+        @keyframes pulsePoints {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse-animation {
+            animation: pulsePoints 0.3s ease;
+        }
+
+        /* Toast personalizado */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            z-index: 10000;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .toast-message.show {
+            transform: translateX(-50%) translateY(0);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1> Charadas becawest </h1>
+        <h1> <i class="fas fa-star"></i> Charadas becawest <i class="fas fa-star"></i> </h1>
 
         <div class="main-content">
             <!-- Painel de Pontos -->
             <div class="pontos-panel">
                 <div class="pontos-card">
-                    <p> PONTOS </p>
+                    <p><i class="fas fa-trophy"></i> PONTOS</p>
                     <div class="pontos-valor" id="pontos">0</div>
                 </div>
-                <button class="btn-pontos btn-acertei" id="btn-acertei" title="Acertei! (+10 pontos)"><i class="fas fa-check"></i></button>
             </div>
 
             <!-- Card 3D -->
             <div class="card-3d-container">
                 <div class="card-wrapper" id="card-wrapper">
                     <div class="card-inner" id="card-inner">
-                        <!-- Frente -->
+                        <!-- Frente - Pergunta -->
                         <div class="card-front">
                             <div class="badge badge-pergunta"><i class="fas fa-question-circle"></i> PERGUNTA</div>
                             <p class="pergunta-texto" id="pergunta">Carregando...</p>
                             <div class="dica dica-front"><i class="fas fa-redo"></i> Clique para virar</div>
                         </div>
-                        <!-- Verso -->
+                        
+                        <!-- Verso - Resposta com botões -->
                         <div class="card-back">
                             <div class="badge badge-resposta"><i class="fas fa-lightbulb"></i> RESPOSTA</div>
                             <p class="resposta-texto" id="resposta">Carregando...</p>
+                            
+                            <!-- Botões de acertou/errou dentro do card -->
+                            <div class="botoes-resposta">
+                                <button class="btn-resposta btn-acertou" id="btn-acertou-card">
+                                    <i class="fas fa-check-circle"></i> Acertou! +10
+                                </button>
+                                <button class="btn-resposta btn-errou" id="btn-errou-card">
+                                    <i class="fas fa-times-circle"></i> Errou! -5
+                                </button>
+                            </div>
+                            
                             <div class="dica dica-back"><i class="fas fa-redo"></i> Clique para voltar</div>
                         </div>
                     </div>
@@ -360,9 +440,8 @@
         </div>
 
         <div class="botoes-container">
-            <button class="btn btn-reset" id="btn-reset"> Resetar Pontos</button>
-            <button class="btn btn-nova" id="btn-nova"> Nova Charada</button>
-           
+            <button class="btn btn-reset" id="btn-reset"><i class="fas fa-broom"></i> Resetar Pontos</button>
+            <button class="btn btn-nova" id="btn-nova"><i class="fas fa-dice-d6"></i> Nova Charada</button>
         </div>
 
         <footer>
