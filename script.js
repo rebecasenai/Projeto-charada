@@ -138,7 +138,7 @@ btnAcertei.addEventListener('click', (e) => {
     
     // Verifica se o card está virado usando a função correta
     if (!cardEstaVirado()) {
-        alert('✨ Vire o card para ver a resposta primeiro! ✨')
+        alert('Vire o card para ver a resposta primeiro!')
         return
     }
     
@@ -152,7 +152,7 @@ btnErrei.addEventListener('click', (e) => {
     
     // Verifica se o card está virado usando a função correta
     if (!cardEstaVirado()) {
-        alert('✨ Vire o card para ver a resposta primeiro! ✨')
+        alert('Vire o card para ver a resposta primeiro!')
         return
     }
     

@@ -6,7 +6,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1055/1055672.png" type="image/png">
-    <title>Gerador de Charadas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Charadas becawest</title>
     <style>
         * {
             margin: 0;
@@ -16,7 +17,10 @@
 
         body {
             font-family: "Raleway", sans-serif;
-            background: linear-gradient(135deg, #5f72e7 0%, #c497f0 50%, #ff94d8 100%);
+            background: linear-gradient(135deg, rgba(95, 114, 231, 0.8) 0%, rgba(196, 151, 240, 0.8) 50%, rgba(255, 148, 216, 0.8) 100%), url('img1.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -99,7 +103,7 @@
             height: 65px;
             border-radius: 50%;
             border: none;
-            font-size: 2rem;
+            font-size: 1.8rem;
             cursor: pointer;
             transition: transform 0.2s, filter 0.2s;
             font-weight: bold;
@@ -199,6 +203,10 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
+        .badge i {
+            margin-right: 8px;
+        }
+
         .badge-pergunta {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: white;
@@ -234,6 +242,10 @@
             margin-top: 25px;
             font-size: 0.8rem;
             opacity: 0.7;
+        }
+
+        .dica i {
+            margin-right: 5px;
         }
 
         .dica-front {
@@ -323,8 +335,8 @@
                     <p> PONTOS </p>
                     <div class="pontos-valor" id="pontos">0</div>
                 </div>
-                <button class="btn-pontos btn-acertei" id="btn-acertei" title="Acertei! (+10 pontos)">✓</button>
-                <button class="btn-pontos btn-errei" id="btn-errei" title="Errei! (-5 pontos)">✗</button>
+                <button class="btn-pontos btn-acertei" id="btn-acertei" title="Acertei! (+10 pontos)"><i class="fas fa-check"></i></button>
+                <button class="btn-pontos btn-errei" id="btn-errei" title="Errei! (-5 pontos)"><i class="fas fa-times"></i></button>
             </div>
 
             <!-- Card 3D -->
@@ -333,15 +345,15 @@
                     <div class="card-inner" id="card-inner">
                         <!-- Frente -->
                         <div class="card-front">
-                            <div class="badge badge-pergunta">🤔 PERGUNTA</div>
+                            <div class="badge badge-pergunta"><i class="fas fa-question-circle"></i> PERGUNTA</div>
                             <p class="pergunta-texto" id="pergunta">Carregando...</p>
-                            <div class="dica dica-front">↻ Clique para virar</div>
+                            <div class="dica dica-front"><i class="fas fa-redo"></i> Clique para virar</div>
                         </div>
                         <!-- Verso -->
                         <div class="card-back">
-                            <div class="badge badge-resposta">💡 RESPOSTA</div>
+                            <div class="badge badge-resposta"><i class="fas fa-lightbulb"></i> RESPOSTA</div>
                             <p class="resposta-texto" id="resposta">Carregando...</p>
-                            <div class="dica dica-back">↻ Clique para voltar</div>
+                            <div class="dica dica-back"><i class="fas fa-redo"></i> Clique para voltar</div>
                         </div>
                     </div>
                 </div>
@@ -355,7 +367,7 @@
         </div>
 
         <footer>
-            Feito por <a href="https://www.linkedin.com/in/rebeca-diniz-970437350/" target="_blank">Rebeca</a> ✨
+            Feito por <a href="https://www.linkedin.com/in/rebeca-diniz-970437350/" target="_blank">Rebeca</a> <i class="fas fa-star"></i>
         </footer>
     </div>
     <script src="script.js"></script>
