@@ -7,7 +7,7 @@ feito por Rebeca Diniz
 - HTML
 - CSS (Tailwind CDN)
 - JavaScript
-- API externa para buscar charadas
+- API externa para buscar charadas usando FIREBASE
 
 ## Como usar
 
