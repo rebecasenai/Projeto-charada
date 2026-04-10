@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <title>Gerador de Charadas</title>
+    <style>
+        * {
+            font-family: "Chewy", system-ui;
+            font-weight: 400;
+            font-style: normal;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #d5b9f1 100%);
+        }
+        
+        /* Efeito de vidro no card */
+        .card-front {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-back {
+            background: linear-gradient(135deg, #667eea 0%, #dbbff6 100%);
+        }
+        
+        /* Transição suave */
+        #card-inner {
+            transition: transform 0.6s ease-in-out;
+            transform-style: preserve-3d;
+        }
+        
+        /* Esconde o verso quando não está virado */
+        #card-inner > div {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Verso começa virado */
+        #card-inner > div:last-child {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <h1 class="text-5xl font-bold text-white text-center mb-12 drop-shadow-lg tracking-wide">
+        🎲 Gerador de Charadas 🎲
+    </h1>
+
+    <div class="group w-full max-w-md [perspective:1000px] h-96">
+        <div id="card-inner" class="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d] cursor-pointer shadow-2xl rounded-2xl">
+           
+            <!-- Frente (Pergunta) -->
+            <div class="absolute inset-0 card-front rounded-2xl flex flex-col items-center justify-center p-8 text-center shadow-xl">
+                <div class="w-full">
+                    <div class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-full text-sm mb-6 shadow-lg">
+                         PERGUNTA
+                    </div>
+                    <p id="pergunta" class="text-2xl text-gray-800 leading-relaxed">
+                        Carregando charada...
+                    </p>
+                </div>
+                <div class="mt-8 text-purple-400 text-sm">
+                     Clique no card para ver a resposta 
+                </div>
+            </div>
+
+            <!-- Verso (Resposta) -->
+            <div class="absolute inset-0 card-back rounded-2xl flex flex-col items-center justify-center p-8 text-center text-white shadow-xl">
+                <div class="w-full">
+                    <div class="inline-block bg-white bg-opacity-20 backdrop-blur-sm px-6 py-2 rounded-full text-sm mb-6 shadow-lg">
+                        💡 RESPOSTA
+                    </div>
+                    <p id="resposta" class="text-2xl font-bold leading-relaxed">
+                        Carregando...
+                    </p>
+                </div>
+                <div class="mt-8 text-white text-opacity-80 text-sm">
+                     Clique no card para voltar 
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button id="btn-nova" class="mt-10 bg-white text-purple-600 hover:bg-purple-50 font-bold py-3 px-8 rounded-full transition-all active:scale-95 shadow-xl hover:shadow-2xl text-lg tracking-wide">
+         Nova Charada 
+    </button>
+<script src="script.js"></script>
+</body>
+</html>
