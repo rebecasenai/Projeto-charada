@@ -1,4 +1,4 @@
-# Gerador de Charadas
+# Gerador de Charada😀
 
 Projeto Front-End simples que exibe uma charada aleatória em um card com frente e verso. A pergunta aparece na frente e a resposta no verso, com animação de giro ao clicar.
 feito por Rebeca Diniz 
