@@ -24,7 +24,7 @@ feito por Rebeca Diniz
 
 ## Observações
 
-- A aplicação depende da disponibilidade do backend da API.
+- A aplicação depende da disponibilidade do backend da API. `https://github.com/rebecasenai/api_charadas_backend.git`
 - Se o backend estiver offline ou protegido, a charada não será carregada.
 - Caso queira testar localmente, abra `https://projeto-charada-zeta.vercel.app/` diretamente no navegador ou use um servidor simples.
 
