@@ -34,8 +34,4 @@ feito por Rebeca Diniz
 - `script.js` - lógica de busca e interação.
 - `README.md` - documentação do projeto.
 
-## Melhorias sugeridas
 
-- Adicionar tratamento de erros mais amigável ao usuário.
-- Mostrar um loader enquanto a charada carrega.
-- Permitir armazenar charadas favoritas.
